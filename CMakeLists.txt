@@ -1,5 +1,13 @@
 cmake_minimum_required(VERSION 3.10)
 
+if(VITA)
+if(DEFINED ENV{VITASDK})
+set(CMAKE_TOOLCHAIN_FILE "$ENV{VITASDK}/share/vita.toolchain.cmake" CACHE PATH "toolchain file")
+else()
+message(FATAL_ERROR "Please define VITASDK to point to your SDK path!")
+endif()
+endif()
+
 project(krkrsdl2)
 
 if((NOT ANDROID) AND (NOT IOS) AND (NOT VITA) AND (NOT NINTENDO_SWITCH) AND (NOT (APPLE AND NOT IOS)) AND (NOT (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")))
@@ -46,7 +54,7 @@ set(CMAKE_XCODE_ATTRIBUTE_TARGETED_DEVICE_FAMILY "1,2")
 endif()
 
 if(VITA)
-include("${VITASDK}/share/vita.cmake" REQUIRED)
+include("$ENV{VITASDK}/share/vita.cmake" REQUIRED)
 
 if(NOT VITA_APP_NAME)
 set(VITA_APP_NAME "Kirikiri SDL2")
